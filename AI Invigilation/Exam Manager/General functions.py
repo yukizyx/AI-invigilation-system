@@ -25,8 +25,9 @@ class exam_manager:
     def end_exam():
         pass
 
-    def set_info(self):
-
+    def set_info(self, new_start, new_end):
+        self.start_time = new_start
+        self.end_time = new_end
 
     def display_info():
         pass

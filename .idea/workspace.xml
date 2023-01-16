@@ -1,9 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
   <component name="ChangeListManager">
     <list default="true" id="50f54c01-81a7-402a-a505-8badff5c54c7" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/AI Invigilation/Exam Manager/General functions.py" beforeDir="false" afterPath="$PROJECT_DIR$/AI Invigilation/Exam Manager/General functions.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/AI Invigilation/Exam Manager/system.py" beforeDir="false" afterPath="$PROJECT_DIR$/AI Invigilation/Exam Manager/system.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
