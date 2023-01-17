@@ -1,0 +1,32 @@
+.SupervisorHome {
+  display: flex;
+  flex-direction: row;
+  align-items: stretch;
+}
+
+.SupervisorHome > .leftSidebar {
+  flex-basis: 16em;
+  flex-grow: 0;
+  flex-shrink: 0;
+  height: 100%;
+
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+
+  background: white;
+}
+
+.SupervisorHome > .leftSidebar > .nav-link {
+  height: 3em;
+  line-height: 2em;
+  width: auto;
+
+  border-radius: 0;
+}
+
+.SupervisorHome > .rightPanel {
+  padding: 1em;
+
+  flex-grow: 1;
+}

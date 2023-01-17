@@ -29,7 +29,7 @@
 }
 
 .btn-usertype {
-  background-color: #57886c; /* Green */
+  background-color: #57886c;
   border: none;
   color: white;
   padding: 15px 32px;
@@ -47,4 +47,23 @@
 .btn-usertype:hover {
   box-shadow: 0 12px 16px 0 rgba(0, 0, 0, 0.24),
     0 17px 50px 0 rgba(0, 0, 0, 0.19);
+}
+
+input {
+  width: 30%;
+  padding: 15px 22px;
+  margin: 10px 5px;
+  box-sizing: border-box;
+}
+
+input[type="submit"] {
+  width: 10%;
+  padding: 15px 22px;
+  margin: 10px 5px;
+  box-sizing: border-box;
+  font-family: "Poppins", sans-serif;
+}
+
+.form-field {
+  font-size: 30px;
 }

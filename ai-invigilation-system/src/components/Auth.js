@@ -10,10 +10,14 @@ export default function MainPage() {
       <div className="body">
         <div>User Authentication</div>
         <div>
-          <button className="btn-usertype">Supervisor</button>
+          <Link to="../auth-supervisor" className="btn-usertype">
+            Supervisor
+          </Link>
         </div>
         <div>
-          <button className="btn-usertype">Staff</button>
+          <Link to="../auth-staff" className="btn-usertype">
+            Staff
+          </Link>
         </div>
       </div>
     </div>
