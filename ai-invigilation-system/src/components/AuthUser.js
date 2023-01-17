@@ -36,7 +36,7 @@ export function AuthSupervisor() {
 
               {/* <input type="submit" value="Log In" /> */}
               <Link to="../supervisor-home" className="btn-usertype">
-                Staff
+                Login
               </Link>
             </label>
           </div>

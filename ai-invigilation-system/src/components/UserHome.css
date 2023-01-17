@@ -1,7 +1,11 @@
+@import url("https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css");
+
 .SupervisorHome {
   display: flex;
   flex-direction: row;
   align-items: stretch;
+
+  font-size: 20px;
 }
 
 .SupervisorHome > .leftSidebar {
@@ -29,4 +33,12 @@
   padding: 1em;
 
   flex-grow: 1;
+}
+
+.nav-link {
+  color: black;
+}
+
+.active {
+  background-color: #57886c !important;
 }
