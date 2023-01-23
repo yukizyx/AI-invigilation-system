@@ -56,13 +56,13 @@ input {
   box-sizing: border-box;
 }
 
-input[type="submit"] {
+/* input[type="submit"] {
   width: 10%;
   padding: 15px 22px;
   margin: 10px 5px;
   box-sizing: border-box;
   font-family: "Poppins", sans-serif;
-}
+} */
 
 .form-field {
   font-size: 30px;

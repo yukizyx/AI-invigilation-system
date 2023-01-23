@@ -7,6 +7,7 @@ import { AuthSupervisor, AuthStaff } from "./components/AuthUser.js";
 import { SupervisorHome } from "./components/UserHome.js";
 import CreateExam from "./components/user/CreateExam.js";
 import SetTriggers from "./components/user/SetTriggers.js";
+import LogOut from "./components/user/LogOut.js";
 
 import ErrorPage from "./components/ErrorPage";
 import Root from "./Root";
@@ -49,10 +50,10 @@ const router = createBrowserRouter([
           //   path: "setup-cams",
           //   element: <SetupCams />,
           // },
-          // {
-          //   path: "log-out",
-          //   element: <LogOut />,
-          // },
+          {
+            path: "log-out",
+            element: <LogOut />,
+          },
         ],
       },
     ],
