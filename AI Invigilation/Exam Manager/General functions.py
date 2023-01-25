@@ -1,4 +1,24 @@
 class exam_manager:
+
+    #Constant for Trigger
+
+    # 1 : head position trigger
+    # Out of boundry
+    global a
+    a = 1
+
+
+    # 2 : head position trigger
+    # Offset 30%+
+    global b
+    b = 2
+
+
+    # 3 : Gaze Trigger
+    # look around 10s +
+    global c
+    c = 3
+
     def __init__(self, exam, dm, vc, state, start_time, end_time):
         self.exam = exam
         self.state = state
@@ -12,8 +32,14 @@ class exam_manager:
             f.write(self.end_time)
 
 
-    def set_trigger():
-        pass
+    def set_trigger(self, constant):
+        if constant == 1:
+            return
+        elif constant == 2:
+            return
+        elif constant == 3:
+            return
+
 
 
     def get_trigger():
