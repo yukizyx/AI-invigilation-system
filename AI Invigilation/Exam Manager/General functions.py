@@ -1,3 +1,4 @@
+import time
 class exam_manager:
 
     #Constant for Trigger
@@ -33,11 +34,11 @@ class exam_manager:
 
 
     def set_trigger(self, constant):
-        if constant == 1:
+        if constant == a:
             return
-        elif constant == 2:
+        elif constant == b:
             return
-        elif constant == 3:
+        elif constant == c:
             return
 
 
@@ -45,17 +46,31 @@ class exam_manager:
     def get_trigger():
         pass
 
-    def start_exam():
-        pass
+    def start_exam(self):
+        self.set_trigger()
+        self.set_info()
+        self.display_info()
 
-    def end_exam():
-        pass
+    def end_exam(self):
+        self.generate_report()
 
     def set_info(self, new_start, new_end):
         self.start_time = new_start
         self.end_time = new_end
 
-    def display_info():
-        pass
+    def display_info(self, in_put):
+        # countdown display
+        in_put = input("Input number of minutes") * 60
+        self.count_down(in_put)
 
 
+
+    # small helper function for display_info
+    def count_down(self, num_of_sec):
+        while num_of_sec:
+            m, s = divmod(num_of_sec, 60)
+            min_sec_format = '{:02d}:{:02d}'.format(m, s)
+            print(min_sec_format, end='/r')
+            time.sleep(1)
+            num_of_sec -= 1
+        print("Exam End")
