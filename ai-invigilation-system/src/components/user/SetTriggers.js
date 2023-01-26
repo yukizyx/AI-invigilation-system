@@ -1,23 +1,45 @@
+import Checkbox from "@mui/material/Checkbox";
+
 export default function SetTriggers() {
   return (
     <div>
-      <h1>set triggers</h1>
-      <p>
-        <b>Hearing Loss:</b> A hearing loss can happen when any part of the ear
-        is not working in the usual way. This includes the outer ear, middle
-        ear, inner ear, hearing (acoustic) nerve, and auditory system.
-      </p>
-      <p>
-        <b>Hearing Loss in Children:</b> Hearing loss can affect a child’s
-        ability to develop speech, language, and social skills. The earlier
-        children with hearing loss start getting services, the more likely they
-        are to reach their full potential.
-      </p>
-      <p>
-        <b>Hearing Screening:</b> Hearing screening is a test to tell if people
-        might have hearing loss. Hearing screening is easy and not painful. It
-        takes a very short time — usually only a few minutes.
-      </p>
+      <h1>Set Triggers</h1>
+      <table class="table table-hover">
+        <thead>
+          <tr>
+            <th scope="col">ID</th>
+            <th scope="col">Trigger Type</th>
+            <th scope="col">Parameters</th>
+            <th scope="col">Status</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <th scope="row">1</th>
+            <td>Head Position Trigger</td>
+            <td>Out-of-boundary</td>
+            <td>
+              <Checkbox defaultChecked />
+            </td>
+          </tr>
+          <tr>
+            <th scope="row">2</th>
+            <td>Head Position Trigger</td>
+            <td>Offset 30%+</td>
+            <td>
+              <Checkbox />
+            </td>
+          </tr>
+          <tr>
+            <th scope="row">3</th>
+            <td>Gaze Position Trigger</td>
+            <td>Look around 10s+</td>
+            <td>
+              <Checkbox defaultChecked />
+            </td>
+          </tr>
+        </tbody>
+      </table>
     </div>
   );
 }

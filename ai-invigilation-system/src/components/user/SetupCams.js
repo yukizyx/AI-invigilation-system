@@ -1,23 +1,41 @@
+import Checkbox from "@mui/material/Checkbox";
+
 export default function SetupCams() {
   return (
     <div>
-      <h1>setup cams</h1>
-      <p>
-        <b>Hearing Loss:</b> A hearing loss can happen when any part of the ear
-        is not working in the usual way. This includes the outer ear, middle
-        ear, inner ear, hearing (acoustic) nerve, and auditory system.
-      </p>
-      <p>
-        <b>Hearing Loss in Children:</b> Hearing loss can affect a child’s
-        ability to develop speech, language, and social skills. The earlier
-        children with hearing loss start getting services, the more likely they
-        are to reach their full potential.
-      </p>
-      <p>
-        <b>Hearing Screening:</b> Hearing screening is a test to tell if people
-        might have hearing loss. Hearing screening is easy and not painful. It
-        takes a very short time — usually only a few minutes.
-      </p>
+      <h1>Setup Cameras</h1>
+      <table class="table table-hover">
+        <thead>
+          <tr>
+            <th scope="col">ID</th>
+            <th scope="col">Hardware Name</th>
+            <th scope="col">Status</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <th scope="row">1</th>
+            <td>Main Camera 1</td>
+            <td>
+              <Checkbox defaultChecked />
+            </td>
+          </tr>
+          <tr>
+            <th scope="row">2</th>
+            <td>Main Camera 2</td>
+            <td>
+              <Checkbox />
+            </td>
+          </tr>
+          <tr>
+            <th scope="row">3</th>
+            <td>Main Camera 3</td>
+            <td>
+              <Checkbox defaultChecked />
+            </td>
+          </tr>
+        </tbody>
+      </table>
     </div>
   );
 }
