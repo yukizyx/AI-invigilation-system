@@ -43,12 +43,12 @@ export function StaffHome() {
       <div className="header">AI Invigilator System</div>
 
       <div className="body">
-        <div className={"SupervisorHome"}>
+        <div className={"StaffHome"}>
           <div className={"leftSidebar nav nav-pills"}>
-            <NavLink to={"/supervisor-home/setup-cams"} className="nav-link">
+            <NavLink to={"/staff-home"} end={true} className="nav-link">
               Setup Cameras
             </NavLink>
-            <NavLink to={"/supervisor-home/log-out"} className="nav-link">
+            <NavLink to={"/staff-home/log-out"} className="nav-link">
               Log Out
             </NavLink>
           </div>
