@@ -62,18 +62,58 @@ export function AuthSupervisor() {
 }
 
 export function AuthStaff() {
+  const formLogin = (e) => {
+    e.preventDefault();
+    axios
+      .post("http://localhost:5000/auth-staff", {
+        email: document.getElementById("email").value,
+      })
+      .then((res) => {
+        console.log(res.data);
+      });
+  };
   return (
     <div className="parent">
       <div className="header">AI Invigilator System</div>
 
       <div className="body">
         <div>Staff Authentication</div>
-        <div>
-          <button className="btn-usertype">Supervisor</button>
-        </div>
-        <div>
-          <button className="btn-usertype">Staff</button>
-        </div>
+
+        <form
+          onSubmit={formLogin}
+          action="http://localhost:5000/auth-staff"
+          method="post"
+        >
+          <div className="form-field">
+            <label for="field1">
+              <span>Institution ID :</span>
+              <input type="text" id="email" />
+            </label>
+            <label>
+              {/* <span> </span> */}
+              <input type="submit" value="Send Code" className="btn-usertype" />
+            </label>
+          </div>
+          <div className="form-field">
+            <label for="field2">
+              <span>Code :</span>
+              <input
+                type="password"
+                class="input-field"
+                name="field2"
+                value=""
+              />
+            </label>
+            <label>
+              {/* <span> </span> */}
+
+              {/* <input type="submit" value="Log In" /> */}
+              <Link to="../staff-home" className="btn-usertype">
+                Login
+              </Link>
+            </label>
+          </div>
+        </form>
       </div>
     </div>
   );

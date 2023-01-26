@@ -4,7 +4,7 @@ import { createBrowserRouter, RouterProvider, Route } from "react-router-dom";
 
 import MainPage from "./components/Auth.js";
 import { AuthSupervisor, AuthStaff } from "./components/AuthUser.js";
-import { SupervisorHome } from "./components/UserHome.js";
+import { SupervisorHome, StaffHome } from "./components/UserHome.js";
 import CreateExam from "./components/user/CreateExam.js";
 import SetTriggers from "./components/user/SetTriggers.js";
 import LogOut from "./components/user/LogOut.js";
@@ -48,6 +48,20 @@ const router = createBrowserRouter([
           // },
           // {
           //   path: "setup-cams",
+          //   element: <SetupCams />,
+          // },
+          {
+            path: "log-out",
+            element: <LogOut />,
+          },
+        ],
+      },
+      {
+        path: "staff-home",
+        element: <StaffHome />,
+        children: [
+          // {
+          //   path: "",
           //   element: <SetupCams />,
           // },
           {

@@ -36,3 +36,28 @@ export function SupervisorHome() {
     </div>
   );
 }
+
+export function StaffHome() {
+  return (
+    <div className="parent">
+      <div className="header">AI Invigilator System</div>
+
+      <div className="body">
+        <div className={"SupervisorHome"}>
+          <div className={"leftSidebar nav nav-pills"}>
+            <NavLink to={"/supervisor-home/setup-cams"} className="nav-link">
+              Setup Cameras
+            </NavLink>
+            <NavLink to={"/supervisor-home/log-out"} className="nav-link">
+              Log Out
+            </NavLink>
+          </div>
+
+          <div className={"rightPanel"}>
+            <Outlet />
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
