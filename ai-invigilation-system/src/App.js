@@ -11,6 +11,7 @@ import SetTriggers from "./components/user/SetTriggers.js";
 import LogOut from "./components/user/LogOut.js";
 import ExamHistory from "./components/user/ExamHistory.js";
 import SetupCams from "./components/user/SetupCams.js";
+import ExamInfo from "./components/ExamInfo.js";
 
 import ErrorPage from "./components/ErrorPage";
 import Root from "./Root";
@@ -32,6 +33,10 @@ const router = createBrowserRouter([
       {
         path: "auth-staff",
         element: <AuthStaff />,
+      },
+      {
+        path: "exam-info",
+        element: <ExamInfo />,
       },
       {
         path: "supervisor-home",
