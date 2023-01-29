@@ -1,23 +1,37 @@
 export default function ExamHistory() {
   return (
     <div>
-      <h1>exam history</h1>
-      <p>
-        <b>Hearing Loss:</b> A hearing loss can happen when any part of the ear
-        is not working in the usual way. This includes the outer ear, middle
-        ear, inner ear, hearing (acoustic) nerve, and auditory system.
-      </p>
-      <p>
-        <b>Hearing Loss in Children:</b> Hearing loss can affect a child’s
-        ability to develop speech, language, and social skills. The earlier
-        children with hearing loss start getting services, the more likely they
-        are to reach their full potential.
-      </p>
-      <p>
-        <b>Hearing Screening:</b> Hearing screening is a test to tell if people
-        might have hearing loss. Hearing screening is easy and not painful. It
-        takes a very short time — usually only a few minutes.
-      </p>
+      <h1>Exam History</h1>
+      <table class="table table-hover">
+        <thead>
+          <tr>
+            <th scope="col">Date</th>
+            <th scope="col">Exam Name</th>
+            <th scope="col">Recording</th>
+            <th scope="col">Reports</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <th scope="row">2022/01/01</th>
+            <td>MATH 1A03 Final Exam</td>
+            <td>Open</td>
+            <td>Open</td>
+          </tr>
+          <tr>
+            <th scope="row">2021/11/20</th>
+            <td>MATH 1A03 Midterm Exam</td>
+            <td>Open</td>
+            <td>Open</td>
+          </tr>
+          <tr>
+            <th scope="row">2021/07/26</th>
+            <td>MATH 1B03 Midterm Exam</td>
+            <td>Open</td>
+            <td>Open</td>
+          </tr>
+        </tbody>
+      </table>
     </div>
   );
 }
