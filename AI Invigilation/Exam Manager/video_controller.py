@@ -22,5 +22,6 @@ class video_controller:
 
 
     def send_Next_detection_frame(self, file):
+        pass
         
 
