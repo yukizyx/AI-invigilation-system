@@ -1,5 +1,5 @@
 import time
-class exam_manager:
+class exam_manager():
 
     #Constant for Trigger
 
@@ -43,18 +43,19 @@ class exam_manager:
 
 
 
-    def get_trigger():
+    def get_trigger(self):
         pass
 
-    def start_exam(self):
-        self.set_trigger()
-        self.set_info()
-        self.display_info()
+    def start_exam(self, trigger_type, start, end, time):
+        self.set_trigger(trigger_type)
+        self.set_info(start, end)
+        self.display_info(time)
 
     def end_exam(self):
         self.generate_report()
 
-    def set_info(self, new_start, new_end):
+    def set_info(self, exam, new_start, new_end):
+        self.exam = exam
         self.start_time = new_start
         self.end_time = new_end
 
