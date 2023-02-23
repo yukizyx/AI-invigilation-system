@@ -9,6 +9,9 @@ def sup_login():
         
         if (user_id in ["sup1", "sup2", "sup3"]) and (code == "11223344"):
             return redirect('http://localhost:3000/supervisor-home')
+        else:
+            return redirect('http://localhost:3000/auth-supervisor')
+        
 
 @app.route('/auth-staff',methods = ['POST', 'GET'])
 def stf_login():
@@ -18,6 +21,8 @@ def stf_login():
         
         if (user_id in ["stf1", "stf2", "stf3"]) and (code == "11223344"):
             return redirect('http://localhost:3000/staff-home')
+        else:
+            return redirect('http://localhost:3000/auth-staff')
 
 if __name__ == '__main__':
     app.run(debug = True)
