@@ -1,6 +1,8 @@
 import cv2
 import argparse
 import time
+import socket
+import threading
 
 from PIL import Image
 from src import utli
@@ -11,8 +13,11 @@ FPS = 30
 
 def get_args():
     opt = argparse.ArgumentParser()
-    opt.add_argument('--local', type=bool, default = True, help='run on local machine')
+    opt.add_argument('--local', type=bool, default = False, help='run on local machine')
     opt.add_argument('--backup_dir', type=str, default='./backup', help='frame backup dir')
+    opt.add_argument('--port', type=int, default=8765, help='port for socket')
+    opt.add_argument('--ip', type=str, default='127.0.0.1', help='ip for socket')
+
     args = opt.parse_args()
     return args
 
@@ -75,10 +80,21 @@ if __name__ == "__main__":
 
     else :
         #online mode
-        print("Online mode, awaiting for income frame ...")
+        print("Online mode, listining on port {} ...".format(args.port))
+        with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
+            s.bind((args.ip, args.port))
+            s.listen()
+            conn, addr = s.accept()
+            with conn:
+                print(f"Connected by {addr}")
+                while True:
+                    data = conn.recv(1024)
+                    if not data:
+                        break
+                    conn.sendall(data)
 
-        #TODO next deliverbale do this part
-        img = cv2.imread('./test_img/test.jpg')
-        img = utli.cv2_2_pil(img)
-        #detect face
-        ac.inference(img, debug_output=True)
+        # #TODO next deliverbale do this part
+        # img = cv2.imread('./test_img/test.jpg')
+        # img = utli.cv2_2_pil(img)
+        # #detect face
+        # ac.inference(img, debug_output=True)
