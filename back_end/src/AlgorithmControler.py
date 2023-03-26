@@ -13,7 +13,7 @@ from os import path
 
 class AlgorithmControler:
     def __init__(self):
-        self.CommunicationManager = CommunicationManager.CommunicationManager()
+        # self.CommunicationManager = CommunicationManager.CommunicationManager()
         self.mtcnn = detect_faces
         self.landmarks = dlib.shape_predictor(path.join(".","src","models","weights","shape_predictor_68_face_landmarks.dat"))
         self.storageManager = StorageManager.StorageManager(path.join(".","test_img"))
