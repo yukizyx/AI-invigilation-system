@@ -2,16 +2,17 @@ import configparser
 
 import PySimpleGUI as sg
 from src.connection_manager import *
-
+from src.video_controller import video_controller
 
 class ui_main_page:
     def __init__(self, config):
         #initialise connection manager for backend and wi server
         self.be_connection = connection_manager(config['BE_Network']['host'], config['BE_Network'].getint(option='port'))
-
+        self.vc = video_controller(config['File_path']['report_path'], config['File_path']['recording_path'])
+        self.vc.init_camera(config)
         # Define the layout of the UI
         self.layout = [
-            [sg.Text('BE Connection 1:'), sg.InputText(key='status1', disabled=True), sg.Button('Start BE'), sg.Button('Stop BE'), sg.Button('Start Streaming')],
+            [sg.Text('BE Connection 1:'), sg.InputText(key='status1', disabled=True), sg.Button('Start BE'), sg.Button('Stop BE')],
             [sg.Text('WI Server 2:'), sg.InputText(key='status2', disabled=True), sg.Button('Start WI'), sg.Button('Stop WI')],
             [sg.Output(size=(80, 10))]
         ]
@@ -45,13 +46,16 @@ class ui_main_page:
                 else:
                     print('Failed to connect to backend server')
             # Handle events for status 2
-            if event == 'Start 2':
-                self.window['status2'].update('Connecting...')
-            if event == 'Stop 2':
-                self.window['status2'].update('Stopped')
+            if event == 'Start WI':
+                print('Disconnected from backend server')
+                self.vc.start_Recording()
+            if event == 'Stop WI':
+                fm = self.vc.get_Next_detection_frame()
+                
 
             # Print output to the console
             print(event, values)
+            self.window.Refresh()
 
         # Close the window
         self.window.close()
