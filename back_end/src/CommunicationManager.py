@@ -45,6 +45,8 @@ class CommunicationManager:
     
     def receive_message(self):
         message_type = self.conn.recv(3)
+        if not message_type:
+            return None
         message_size = struct.unpack("L", self.conn.recv(struct.calcsize("L")))[0]
         encoded_message = self.conn.recv(message_size)
         if message_type == b'STR':
