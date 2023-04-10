@@ -51,8 +51,6 @@ class ui_main_page:
                 self.vc.start_Recording()
             if event == 'Stop WI':
                 fm = self.vc.get_Next_detection_frame()
-                
-
             # Print output to the console
             print(event, values)
             self.window.Refresh()
