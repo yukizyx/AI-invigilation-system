@@ -1,8 +1,11 @@
 import socket
 import struct
-import cv2
 import time
+
+import cv2
 import numpy as np
+
+
 class CommunicationManager:
     def __init__(self, host, port, timeout=0):
         self.host = host
@@ -11,6 +14,7 @@ class CommunicationManager:
         self.sock.bind((self.host, self.port))
         self.sock.listen(1)
         self.sock.settimeout(timeout)
+        self.sock.setblocking(False)
         self.conn = None
         self.addr = None
     
@@ -23,6 +27,7 @@ class CommunicationManager:
                 self.conn, self.addr = self.sock.accept()
                 if self.conn:
                     con = True
+                    self.conn.setblocking(False)
                     print('Connected by', self.addr)
             except socket.error as e:
                 if e.errno == 10035:
@@ -44,18 +49,23 @@ class CommunicationManager:
         self.conn.sendall(message_type + message_size + encoded_message)
     
     def receive_message(self):
-        message_type = self.conn.recv(3)
-        if not message_type:
-            return None
-        message_size = struct.unpack("L", self.conn.recv(struct.calcsize("L")))[0]
-        encoded_message = self.conn.recv(message_size)
-        if message_type == b'STR':
-            message = encoded_message.decode('utf-8')
-        elif message_type == b'IMG':
-            message = cv2.imdecode(np.frombuffer(encoded_message, np.uint8), cv2.IMREAD_COLOR)
+        try:
+            message_type = self.conn.recv(3)
+        except Exception as e:
+            pass
         else:
-            raise ValueError('Invalid message type')
-        return message
+            if not message_type:
+                return None
+            message_size = struct.unpack("L", self.conn.recv(struct.calcsize("L")))[0]
+            encoded_message = self.conn.recv(message_size)
+            if message_type == b'STR':
+                message = encoded_message.decode('utf-8')
+            elif message_type == b'IMG':
+                message = cv2.imdecode(np.frombuffer(encoded_message, np.uint8), cv2.IMREAD_COLOR)
+            else:
+                raise ValueError('Invalid message type')
+            return message
+
     
     def close(self):
         if self.conn:

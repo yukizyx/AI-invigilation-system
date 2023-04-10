@@ -1,8 +1,9 @@
 import configparser
-
+import threading
 import PySimpleGUI as sg
 from src.connection_manager import *
 from src.video_controller import video_controller
+
 
 class ui_main_page:
     def __init__(self, config):
@@ -10,6 +11,7 @@ class ui_main_page:
         self.be_connection = connection_manager(config['BE_Network']['host'], config['BE_Network'].getint(option='port'))
         self.vc = video_controller(config['File_path']['report_path'], config['File_path']['recording_path'])
         self.vc.init_camera(config)
+        self.sending_thread = None
         # Define the layout of the UI
         self.layout = [
             [sg.Text('BE Connection 1:'), sg.InputText(key='status1', disabled=True), sg.Button('Start BE'), sg.Button('Stop BE')],
@@ -33,16 +35,20 @@ class ui_main_page:
                 self.window['status1'].update('Connecting...')
                 #connect to backend on a separate thread to prevent blocking
                 self.window.start_thread(self.be_connection.connect, '-CONNECT-')
-                self.be_connection.connect()
             if event == 'Stop BE' and values['-CONNECT-']:
                 print('Disconnected from backend server')
                 self.window['status1'].update('Stopped')
+                self.be_connection.end_sending()
                 self.be_connection.close()
 
             if event == '-CONNECT-':
                 if values['-CONNECT-']:
                     print('Connected to backend server')
                     self.window['status1'].update('Connected')
+                    print('Start Recroding and stream to backend server')
+                    self.window.Refresh()
+                    self.vc.start_Recording()
+                    self.sending_thread = threading.Thread(target=self.be_connection.start_sending, args=(self.vc,)).start()
                 else:
                     print('Failed to connect to backend server')
             # Handle events for status 2

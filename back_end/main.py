@@ -54,55 +54,56 @@ if __name__ == "__main__":
     print("Hash saved to ./hash.txt")
 
     #cv2 load image
-    if args.local :
-        count = get_avaiable_cam_count()
-        print("Local mode, {} cams detected, starting captures ...".format(count))
-        print("Press 'q' to quit")
-        caps = []
+    while True:
+        if args.local :
+            count = get_avaiable_cam_count()
+            print("Local mode, {} cams detected, starting captures ...".format(count))
+            print("Press 'q' to quit")
+            caps = []
 
 
-        for i in range(count):
-            caps.append(cv2.VideoCapture(i))
+            for i in range(count):
+                caps.append(cv2.VideoCapture(i))
 
-        while True:
-            if cv2.waitKey(int(1/FPS*1000)) & 0xFF == ord('q'):
-                break
-            for i in [0]: #TODO FIX THIS
-                cam = caps[i]
-                ret, img = cam.read()
-                img = utli.cv2_2_pil(img)
-                #detect face
-                #time the function
-                img, res = ac.inference(img, debug_output=True)
-                cv2.imshow('cam:{}'.format(i), img)
-
-        for cam in caps:
-            cam.release()
-        cv2.destroyAllWindows()
-
-    else :
-        #online mode
-        print("Online mode, start listining on port {} ...".format(args.port))
-        cm = CommunicationManager.CommunicationManager(args.ip, args.port)
-        cm.accept_connection()
-        while True:
-            if cv2.waitKey(int(1/FPS*1000)) & 0xFF == ord('q'):
-                break
-            try:
-                res = cm.receive_message()
-                if isinstance(res, str):
-                    #todo do shit here
-                    print("Received message: " + res)
-                elif isinstance(res, np.ndarray):
-                    img = utli.cv2_2_pil(res)
+            while True:
+                if cv2.waitKey(int(1/FPS*1000)) & 0xFF == ord('q'):
+                    break
+                for i in [0]: #TODO FIX THIS
+                    cam = caps[i]
+                    ret, img = cam.read()
+                    img = utli.cv2_2_pil(img)
                     #detect face
+                    #time the function
                     img, res = ac.inference(img, debug_output=True)
-                    cm.send_message(img)
-                    cm.send_message(str(res))
-            except socket.timeout:
-                print('Timed out waiting for connection')
-                cm.close()
-                exit(0)
+                    cv2.imshow('cam:{}'.format(i), img)
+
+            for cam in caps:
+                cam.release()
+            cv2.destroyAllWindows()
+
+        else :
+            #online mode
+            print("Online mode, start listining on port {} ...".format(args.port))
+            cm = CommunicationManager.CommunicationManager(args.ip, args.port)
+            cm.accept_connection()
+            while True:
+                if cv2.waitKey(int(1/FPS*1000)) & 0xFF == ord('q'):
+                    break
+                try:
+                    res = cm.receive_message()
+                    if isinstance(res, str):
+                        #todo do shit here
+                        print("Received message: " + res)
+                    elif isinstance(res, np.ndarray):
+                        img = utli.cv2_2_pil(res)
+                        #detect face
+                        img, res = ac.inference(img, debug_output=True)
+                        cm.send_message(img)
+                        cm.send_message(str(res))
+                except socket.timeout:
+                    print('Timed out waiting for connection')
+                    cm.close()
+                    exit(0)
 
 
         # #TODO next deliverbale do this part

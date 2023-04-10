@@ -22,9 +22,11 @@ class AlgorithmControler:
 
     def inference(self, img_in, debug_output = False):
         self.frame_number = self.frame_number + 1
+        #make result dict
         result = {}
         bounding_boxes, landmarks = self.mtcnn(img_in)
         if len(bounding_boxes) == 0:
+            reuslt["face_detected"] = False
             return utli.pil_2_cv2(img_in), result
         else:
             gray = utli.pil_2_cv2(img_in)
@@ -97,4 +99,5 @@ class AlgorithmControler:
             return img_cv2, result
 
         self.storageManager.saveFrame(img_cv2, "test" + str(self.frame_number) + ".jpg")
+        result["frame_number"] = self.frame_number
         return utli.pil_2_cv2(img_in), result
