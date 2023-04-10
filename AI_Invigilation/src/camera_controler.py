@@ -35,7 +35,10 @@ class camera_controler:
 
     def get_current_frame(self):
         with self.lock:
-            return self.current_frame.copy()
+            if self.current_frame is not None:
+                return self.current_frame.copy()
+            else:
+                return None
 
     def stop_recording(self):
         self.recording = False

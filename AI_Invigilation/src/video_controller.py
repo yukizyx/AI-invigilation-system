@@ -65,9 +65,11 @@ class video_controller:
             cam.stop_recording()
 
 
-    def get_Next_detection_frame(self):
-        cam = self.cap[self.count]
-        frame = cam.get_current_frame()
-        self.count = (self.count + 1) % len(self.cap)
-        return frame
+    def get_next_detection_frame(self):
+        frame = None
+        while frame is None:
+            cam = self.cap[self.count]
+            frame = cam.get_current_frame()
+            self.count = (self.count + 1) % len(self.cap)
+            return frame
 

@@ -31,9 +31,15 @@ def test():
     check_directory(conf['File_path']['recording_path'])
     check_directory(conf['File_path']['report_path'])
     from src.video_controller import video_controller
+    from src.connection_manager import connection_manager
+    import threading
+    cm = connection_manager(conf['BE_Network']['host'], int(conf['BE_Network']['port']))
+    cm.connect()
     vc = video_controller(conf['File_path']['report_path'], conf['File_path']['recording_path'])
-    vc.init_camera()
+    vc.init_camera(conf)
     vc.start_Recording()
+    sending_thread = threading.Thread(target=cm.start_sending, args=(vc,)).start()
+
 
 if __name__ == '__main__':
     # test()
