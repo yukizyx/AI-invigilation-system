@@ -1,4 +1,4 @@
-from flask import Flask, redirect, url_for, request
+from flask import Flask, redirect, url_for, request, jsonify
 
 app = Flask(__name__)
 
@@ -54,6 +54,18 @@ def cams():
     # send cam status to backend
     print(f'Cam Status: {status}')
     return {'success': True}
+
+data = {
+  1: {'date': '2022/01/01', 'name': 'MATH 1A03 Final Exam'},
+  2: {'date': '2021/11/20', 'name': 'MATH 1A03 Midterm Exam'},
+  3: {'date': '2021/07/26', 'name': 'MATH 1B03 Midterm Exam'},
+}
+
+@app.route('/Auth/data', methods=['GET'])
+def get_data():
+    return jsonify(data)
+
+
 
 if __name__ == '__main__':
     app.run(debug = True) 
