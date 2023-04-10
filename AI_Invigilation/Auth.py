@@ -30,7 +30,7 @@ def stf_login():
             return redirect('http://localhost:3000/auth-staff')
 
 @app.route('/supervisor-home', methods=['POST'])
-def table():
+def triggers():
     data = request.json
     
     status = [False] * 3
@@ -40,6 +40,19 @@ def table():
     
     # send trigger status to backend
     print(f'Trigger Status: {status}')
+    return {'success': True}
+
+@app.route('/supervisor-home/setup-cams', methods=['POST'])
+def cams():
+    data = request.json
+    
+    status = [False] * 2
+    selectedRows = [row['id'] for row in data.get('selectedRows')]
+    for checked_id in selectedRows:
+        status[checked_id - 1] = True
+    
+    # send cam status to backend
+    print(f'Cam Status: {status}')
     return {'success': True}
 
 if __name__ == '__main__':
