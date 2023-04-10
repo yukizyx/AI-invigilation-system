@@ -1,45 +1,80 @@
-import Checkbox from "@mui/material/Checkbox";
+import React, { useState } from "react";
+import axios from "axios";
 
 export default function SetTriggers() {
+  const [tableData, setTableData] = useState([
+    {
+      id: 1,
+      type: "Head Position Trigger",
+      parameter: "Out-of-boundary",
+      status: true,
+    },
+    {
+      id: 2,
+      type: "Head Position Trigger",
+      parameter: "Offset 30%+",
+      status: false,
+    },
+    {
+      id: 3,
+      type: "Gaze Position Trigger",
+      parameter: "Look around 10s+",
+      status: true,
+    },
+  ]);
+
+  const handleCheckboxChange = (event, id) => {
+    const newData = tableData.map((row) => {
+      if (row.id === id) {
+        return { ...row, status: event.target.checked };
+      } else {
+        return row;
+      }
+    });
+    setTableData(newData);
+  };
+
+  const handleSubmit = (event) => {
+    event.preventDefault();
+    const selectedRows = tableData.filter((row) => row.status);
+    axios
+      .post("/supervisor-home", { selectedRows })
+      .then((response) => console.log(response.data))
+      .catch((error) => console.log(error));
+  };
+
   return (
     <div>
       <h1>Set Triggers</h1>
-      <table class="table table-hover">
-        <thead>
-          <tr>
-            <th scope="col">ID</th>
-            <th scope="col">Trigger Type</th>
-            <th scope="col">Parameters</th>
-            <th scope="col">Status</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <th scope="row">1</th>
-            <td>Head Position Trigger</td>
-            <td>Out-of-boundary</td>
-            <td>
-              <Checkbox defaultChecked />
-            </td>
-          </tr>
-          <tr>
-            <th scope="row">2</th>
-            <td>Head Position Trigger</td>
-            <td>Offset 30%+</td>
-            <td>
-              <Checkbox />
-            </td>
-          </tr>
-          <tr>
-            <th scope="row">3</th>
-            <td>Gaze Position Trigger</td>
-            <td>Look around 10s+</td>
-            <td>
-              <Checkbox defaultChecked />
-            </td>
-          </tr>
-        </tbody>
-      </table>
+      <div>
+        <form onSubmit={handleSubmit}>
+          <table class="table table-hover">
+            <thead>
+              <tr>
+                <th scope="col">Trigger Type</th>
+                <th scope="col">Parameters</th>
+                <th scope="col">Status</th>
+              </tr>
+            </thead>
+            <tbody>
+              {tableData.map((row) => (
+                <tr key={row.id}>
+                  <td>{row.type}</td>
+                  <td>{row.parameter}</td>
+                  <td>
+                    <input
+                      type="checkbox"
+                      checked={row.status}
+                      onChange={(event) => handleCheckboxChange(event, row.id)}
+                    />
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+          <button type="submit">Submit</button>
+        </form>
+      </div>
     </div>
   );
 }

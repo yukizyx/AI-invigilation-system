@@ -1,147 +1,64 @@
-import TextField from "@mui/material/TextField";
-import { Link } from "react-router-dom";
-import { useState } from "react";
-import React, { Component } from "react";
-
-// export default class CreateExam extends Component {
-//   state = {
-//     name: "rajdeep singh",
-//     love: "coding",
-//     earn: "null",
-//   };
-
-//   render() {
-//     return (
-//       <>
-//         <div>
-//           <h1>Create Exam</h1>
-
-//           <form className="form-field">
-//             <div>
-//               <label for="field1">
-//                 <span>Exam name : </span>
-//                 <TextField
-//                   onChange={(newValue) =>
-//                     this.setState({ name: newValue.target.value })
-//                   }
-//                   value={this.state.name}
-//                   id="name-field"
-//                   label="Name"
-//                 />
-//               </label>
-//             </div>
-//             <div>
-//               <p>{this.state.name}</p>
-//             </div>
-
-//             <div>
-//               <label for="field2">
-//                 <span>Start time : </span>
-//                 <TextField
-//                   id="demo-helper-text-misaligned-no-helper"
-//                   label="yyyy/mm/dd/hh/mm"
-//                 />
-//               </label>
-//             </div>
-
-//             <div>
-//               <label for="field3">
-//                 <span>End time : </span>
-//                 <TextField
-//                   id="demo-helper-text-misaligned-no-helper"
-//                   label="yyyy/mm/dd/hh/mm"
-//                 />
-//               </label>
-//             </div>
-//           </form>
-
-//           <div>
-//             {/* <Link to={info} target="_blank" className="btn-usertype"> */}
-//             {/* <Link to={{ pathname: "/../../exam-info", state: this.state }}> */}
-//             <Link
-//               to={"/../../exam-info"}
-//               state="111111"
-//               target="_blank"
-//               className="btn-usertype"
-//             >
-//               Save
-//             </Link>
-//           </div>
-//         </div>
-//       </>
-//     );
-//   }
-// }
+import React, { useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
 
 export default function CreateExam() {
-  const [name, setName] = useState("");
+  const [formData, setFormData] = useState({
+    name: "MATH 1A03 Final Exam",
+    start: "yyyy/mm/dd/hh/mm",
+    end: "yyyy/mm/dd/hh/mm",
+  });
+  const navigate = useNavigate();
 
-  let state = {
-    name: "rajdeep singh",
-    love: "coding",
-    earn: "null",
+  const handleInputChange = (event) => {
+    const { name, value } = event.target;
+    setFormData((prevFormData) => ({ ...prevFormData, [name]: value }));
   };
 
-  const info = {
-    pathname: "/../../exam-info",
-    param1: `${name}`,
-    // param2: `${lastName}`,
-    // param3: `${email}`
+  const handleSubmit = (event) => {
+    event.preventDefault();
+    navigate("/../../exam-info", { state: { formData } });
   };
 
   return (
     <div>
       <h1>Create Exam</h1>
-
-      <form className="form-field">
-        <div>
-          <label for="field1">
-            <span>Exam name : </span>
-            <TextField
-              onChange={(newValue) => setName(newValue.target.value)}
-              value={name}
-              id="name-field"
-              label="Name"
-            />
-          </label>
-        </div>
-        {/* <div>
-          <p>{name}</p>
-        </div> */}
-
-        <div>
-          <label for="field2">
-            <span>Start time : </span>
-            <TextField
-              id="demo-helper-text-misaligned-no-helper"
-              label="yyyy/mm/dd/hh/mm"
-            />
-          </label>
+      <form className="form-field" onSubmit={handleSubmit}>
+        <div style={{ padding: "20px" }}>
+          <label htmlFor="name">Name:</label>
+          <input
+            type="text"
+            id="name"
+            name="name"
+            label="Name"
+            value={formData.name}
+            onChange={handleInputChange}
+          />
         </div>
 
-        <div>
-          <label for="field3">
-            <span>End time : </span>
-            <TextField
-              id="demo-helper-text-misaligned-no-helper"
-              label="yyyy/mm/dd/hh/mm"
-            />
-          </label>
+        <div style={{ padding: "20px" }}>
+          <label htmlFor="start">Start Time:</label>
+          <input
+            type="text"
+            id="start"
+            name="start"
+            value={formData.start}
+            onChange={handleInputChange}
+          />
         </div>
+
+        <div style={{ padding: "20px" }}>
+          <label htmlFor="start">End Time:</label>
+          <input
+            type="text"
+            id="end"
+            name="end"
+            value={formData.end}
+            onChange={handleInputChange}
+          />
+        </div>
+
+        <button type="submit">Submit</button>
       </form>
-
-      <div>
-        {/* <Link to={info} target="_blank" className="btn-usertype"> */}
-        {/* <Link to={{ pathname: "/../../exam-info", state: state }}> */}
-        <Link
-          to={"/../../exam-info"}
-          state={{ exam_name: name }}
-          target="_blank"
-          className="btn-usertype"
-        >
-          Save
-        </Link>
-      </div>
     </div>
   );
 }

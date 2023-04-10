@@ -29,5 +29,18 @@ def stf_login():
         else:
             return redirect('http://localhost:3000/auth-staff')
 
+@app.route('/supervisor-home', methods=['POST'])
+def table():
+    data = request.json
+    
+    status = [False] * 3
+    selectedRows = [row['id'] for row in data.get('selectedRows')]
+    for checked_id in selectedRows:
+        status[checked_id - 1] = True
+    
+    # send trigger status to backend
+    print(f'Trigger Status: {status}')
+    return {'success': True}
+
 if __name__ == '__main__':
     app.run(debug = True) 
