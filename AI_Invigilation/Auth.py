@@ -1,6 +1,8 @@
 from flask import Flask, redirect, url_for, request, jsonify
-
+from src.action_queue import *
 app = Flask(__name__)
+
+
 
 @app.route('/auth-supervisor',methods = ['POST', 'GET'])
 def sup_login():
@@ -39,6 +41,7 @@ def triggers():
         status[checked_id - 1] = True
     
     # send trigger status to backend
+    ActionQueue().add_action(SET_TRIGER, status)
     print(f'Trigger Status: {status}')
     return {'success': True}
 
@@ -47,6 +50,7 @@ def cams():
     data = request.json
     
     status = [False] * 2
+    ActionQueue().add_action(SET_CAMERA, status)
     selectedRows = [row['id'] for row in data.get('selectedRows')]
     for checked_id in selectedRows:
         status[checked_id - 1] = True

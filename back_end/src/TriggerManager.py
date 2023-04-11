@@ -9,9 +9,9 @@ class TriggerManager:
 
     def __init_default_vars(self):
         self.triggers = {}
-        self.triggers["mouse"] = 0.5
+        self.triggers["mouse"] = 0.8
         self.triggers["yaw"] = 0.5
-        self.triggers["pitch"] = 0.9
+        self.triggers["pitch"] = 0.3
         return
 
     def set_trigger(self, trigger_name, trigger_value):

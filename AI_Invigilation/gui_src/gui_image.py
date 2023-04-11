@@ -51,7 +51,6 @@ class ImageGUI:
         img_bytes = bio.getvalue()
         if img_bytes is not None:
             self.window['image_display'].update(data=img_bytes)
-            print("Updated image")
         
 
     def event_loop(self):

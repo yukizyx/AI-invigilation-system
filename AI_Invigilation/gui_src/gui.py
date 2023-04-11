@@ -9,6 +9,8 @@ from src.video_controller import video_controller
 from Auth import start_flask
 from gui_src.gui_image import *
 from src.image_manager import *
+from src.action_queue import *
+from src.trigger import *
 
 class ui_main_page:
     def __init__(self, config):
@@ -20,6 +22,8 @@ class ui_main_page:
         self.flask = None
         self.connected = False
         self.imageUI = None
+        self.action_queue = ActionQueue()
+        self.tm = trigger()
         # Define the layout of the UI
         self.layout = [
             [sg.Text('BE Connection 1:'), sg.InputText(key='status1', disabled=True), sg.Button('Start BE'), sg.Button('Stop BE')],
@@ -32,7 +36,16 @@ class ui_main_page:
     def run(self):
         # Loop through events
         while True:
-            event, values = self.window.read()
+            event, values = self.window.read(timeout=1000/5)
+
+            if not self.action_queue.is_empty():
+                (action, values) = self.action_queue.get_top_action()
+                if action == SET_TRIGER:
+                    print('Set triger:', values)
+                    self.tm.set_trigger(values)
+                elif action == SET_CAMERA:
+                    print('Set camera:', values)
+                self.action_queue.remove_action()
 
             # If the user closes the window, exit the program
             if event == sg.WINDOW_CLOSED:
@@ -76,7 +89,6 @@ class ui_main_page:
                 self.imageUI.event_loop()
                 # fm = self.vc.get_Next_detection_frame()
             # Print output to the console
-            print(event, values)
             self.window.Refresh()
 
         # Close the window
