@@ -6,19 +6,19 @@ export default function SetTriggers() {
     {
       id: 1,
       type: "Head Position Trigger",
-      parameter: "Out-of-boundary",
+      parameter: "is mouth open",
       status: true,
     },
     {
       id: 2,
       type: "Head Position Trigger",
-      parameter: "Offset 30%+",
+      parameter: "head yaw",
       status: false,
     },
     {
       id: 3,
-      type: "Gaze Position Trigger",
-      parameter: "Look around 10s+",
+      type: "Head Position Trigger",
+      parameter: "head pitch",
       status: true,
     },
   ]);
