@@ -4,8 +4,10 @@ import cv2
 import time
 import numpy as np
 import json
-
+from src.image_manager import *
 from src.storage_manager import *
+from src.trigger import *
+
 class connection_manager:
     def __init__(self, host, port, max_retries=10, retry_delay=1):
         self.host = host
@@ -15,7 +17,9 @@ class connection_manager:
         self.sock = None
         self.sending = False
         self.storage_manager = storage_manager('report', 'report.txt')
-    
+        self.imageManager = image_manager()
+        self.tm = trigger()
+
     def connect(self):
         retries = 0
         while retries < self.max_retries:
@@ -34,22 +38,25 @@ class connection_manager:
     def start_sending(self, video_controller):
         self.sending = True
         while self.sending:
-            frame = video_controller.get_next_detection_frame()
+            idx, frame = video_controller.get_next_detection_frame()
             if frame is None:
                 continue
             self.send_message(frame)
             frame = self.receive_message()
+            if frame is not None:
+                self.imageManager.save_image(idx, frame)
             # cv2.imshow('frame', res)
             # cv2.imwrite('test.jpg', res)
             res = self.receive_message()
+            tri = self.tm.get_trigger()
             if res is not None:
                 #save 
                 res = json.loads(res)
                 if res['face_detected']:
-                    if res['mouse_open'] or res['yaw_violated'] or res['pitch_violated']:
+                    if (res['mouse_open'] and tri[0]) or (res['yaw_violated'] and tri[1]) or (res['pitch_violated'] and tri[2]):
+                        print("Detected on cam{}".format(idx))
                         self.storage_manager.add_report(res)
-                        self.storage_manager.save_frame(frame, res['frame_number'])
-            time.sleep(0.1)
+                        self.storage_manager.save_image(frame, res['frame_number'])
     
     def end_sending(self):
         self.sending = False

@@ -36,13 +36,16 @@ class video_controller:
         black_list = black_list.split(',')
         black_list = [int(i) for i in black_list]
 
+        index = 0
         for i in range(count):
             if i in black_list:
-                count -= 1
                 continue
-            cam = camera_controler(i,self.path)
+            cam = camera_controler(index,self.path)
+            index += 1
             self.cap.append(cam)
         self.status = True
+        print("{} cameras are detected:".format(count))
+        return len(self.cap)
 
 
     def release_camera(self):
@@ -71,5 +74,5 @@ class video_controller:
             cam = self.cap[self.count]
             frame = cam.get_current_frame()
             self.count = (self.count + 1) % len(self.cap)
-            return frame
+            return cam.index, frame
 

@@ -1,27 +1,14 @@
+from src.image_manager import singleton
+
+@singleton
 class trigger:
+    def __init__(self):
+        self.trigger = [True] * 3
 
-    global head_position_trigger
-    head_position_trigger = False
-    global gaze_trigger
-    gaze_trigger= False
-
-    def __init__(self, description, duration, state):
-        self.description = description
-        self.duration = duration
-        self.state = state
-    def active_trigger(self, name):
-        if name == "head_position_trigger":
-            head_position_trigger = True
-        if name == "gaze_trigger":
-            gaze_trigger = True
+    def get_trigger(self):
+        return self.trigger
 
 
-    def cancel_trigger(self, name):
-        if name == "head_position_trigger":
-            head_position_trigger = False
-        if name == "gaze_trigger":
-            gaze_trigger = False
-
-
-    def set_trigger(self):
-        pass
+    def set_trigger(self, trigger):
+        self.trigger = trigger
+        

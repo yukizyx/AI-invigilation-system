@@ -21,14 +21,15 @@ class AlgorithmControler:
         self.triggers = TriggerManager.TriggerManager()
 
     def inference(self, img_in, debug_output = False):
-        self.frame_number = self.frame_number + 1
-        #make result dict
         result = {}
+        result["frame_number"] = self.frame_number
+        self.frame_number = self.frame_number + 1
         bounding_boxes, landmarks = self.mtcnn(img_in)
         if len(bounding_boxes) == 0:
-            reuslt["face_detected"] = False
+            result["face_detected"] = False
             return utli.pil_2_cv2(img_in), result
         else:
+            result["face_detected"] = True
             gray = utli.pil_2_cv2(img_in)
             gray = cv2.cvtColor(gray, cv2.COLOR_BGR2GRAY)
             for face in bounding_boxes:
@@ -51,16 +52,20 @@ class AlgorithmControler:
                 left_dist = utli.dist_2d(utli.mid_point_2d(landmark[1], landmark[2]), landmark[30])
                 right_dist = utli.dist_2d(utli.mid_point_2d(landmark[15], landmark[14]), landmark[30])
                 result["yaw"] = (left_dist - right_dist) / max(left_dist, right_dist)
-                if abs(result["yaw"]) >= self.triggers.get_trigger("yaw"): #TODO magic number, need to be set by MI:
+                if abs(result["yaw"]) >= self.triggers.get_trigger("yaw"):
                     result["yaw_violated"] = True
                 else:
                     result["yaw_violated"] = False
 
                 #detect the pitch angle:
-                face_height = utli.dist_2d(utli.mid_point_2d(landmark[21], landmark[22]), landmark[8])
-                face_width = utli.dist_2d(landmark[0], landmark[16])
-                result["pitch"] = face_width / face_height
-                if result["pitch"] >= self.triggers.get_trigger("pitch"): #TODO magic number, need to be set by MI:
+                # face_height = utli.dist_2d(utli.mid_point_2d(landmark[21], landmark[22]), landmark[8])
+                # face_width = utli.dist_2d(landmark[0], landmark[16])
+                # result["pitch"] = face_width / face_height
+                face_width_mid = utli.mid_point_2d(utli.mid_point_2d(landmark[1], landmark[2]), utli.mid_point_2d(landmark[15], landmark[14]))
+                face_mid_to_nose = utli.dist_2d(face_width_mid, landmark[30])
+                face_distance_to_mid_half = (left_dist + right_dist)/2
+                result["pitch"] = face_mid_to_nose / face_distance_to_mid_half
+                if result["pitch"] >= self.triggers.get_trigger("pitch"):
                     result["pitch_violated"] = True
                 else:
                     result["pitch_violated"] = False
@@ -87,7 +92,7 @@ class AlgorithmControler:
             cv2.line(img_cv2, utli.mid_point_2d(landmark[15], landmark[14], to_int=True), landmark[30], color, thickness=1)
 
             #draw pitch line
-            if result["yaw_violated"] == True:
+            if result["pitch_violated"] == True:
                 color = (0, 0, 255)
             else:
                 color = (0, 255, 0)
@@ -99,5 +104,4 @@ class AlgorithmControler:
             return img_cv2, result
 
         self.storageManager.saveFrame(img_cv2, "test" + str(self.frame_number) + ".jpg")
-        result["frame_number"] = self.frame_number
         return utli.pil_2_cv2(img_in), result

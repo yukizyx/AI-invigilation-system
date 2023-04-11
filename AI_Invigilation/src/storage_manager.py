@@ -1,5 +1,5 @@
 import cv2
-
+import os
 class storage_manager:
     def __init__(self, report_path, file_name):
         self.report_path = report_path
@@ -27,4 +27,4 @@ class storage_manager:
                 file.write(str(report))
 
     def save_image(self, img, frame_id):
-        cv2.imwrite(self.report_path + '/' + frame_id + '.jpg', img)
+        cv2.imwrite(self.report_path + '/' + str(frame_id) + '.jpg', img)
