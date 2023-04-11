@@ -57,7 +57,6 @@ class connection_manager:
                         print("Detected on cam{}".format(idx))
                         self.storage_manager.add_report(res)
                         self.storage_manager.save_image(frame, res['frame_number'])
-            time.sleep(0.1)
     
     def end_sending(self):
         self.sending = False

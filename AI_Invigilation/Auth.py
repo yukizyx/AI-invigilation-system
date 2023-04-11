@@ -2,7 +2,7 @@ from flask import Flask, redirect, url_for, request, jsonify
 from src.action_queue import *
 app = Flask(__name__)
 
-
+ac = ActionQueue()
 
 @app.route('/auth-supervisor',methods = ['POST', 'GET'])
 def sup_login():
@@ -41,8 +41,8 @@ def triggers():
         status[checked_id - 1] = True
     
     # send trigger status to backend
-    ActionQueue().add_action(SET_TRIGER, status)
-    print(f'Trigger Status: {status}')
+    ac.add_action(SET_TRIGER, status)
+    # print(f'Trigger Request: {status}')
     return {'success': True}
 
 @app.route('/supervisor-home/setup-cams', methods=['POST'])
@@ -50,19 +50,19 @@ def cams():
     data = request.json
     
     status = [False] * 2
-    ActionQueue().add_action(SET_CAMERA, status)
+    ac.add_action(SET_CAMERA, status)
     selectedRows = [row['id'] for row in data.get('selectedRows')]
     for checked_id in selectedRows:
         status[checked_id - 1] = True
     
     # send cam status to backend
-    print(f'Cam Status: {status}')
+    # print(f'Cam Status: {status}')
     return {'success': True}
 
 data = {
-  1: {'date': '2022/01/01', 'name': 'MATH 1A03 Final Exam'},
-  2: {'date': '2021/11/20', 'name': 'MATH 1A03 Midterm Exam'},
-  3: {'date': '2021/07/26', 'name': 'MATH 1B03 Midterm Exam'},
+    1: {'date': '2022/01/01', 'name': 'MATH 1A03 Final Exam'},
+    2: {'date': '2021/11/20', 'name': 'MATH 1A03 Midterm Exam'},
+    3: {'date': '2021/07/26', 'name': 'MATH 1B03 Midterm Exam'},
 }
 
 @app.route('/Auth/data', methods=['GET'])

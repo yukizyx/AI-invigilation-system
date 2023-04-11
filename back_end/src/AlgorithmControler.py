@@ -21,7 +21,7 @@ class AlgorithmControler:
         self.triggers = TriggerManager.TriggerManager()
 
     def inference(self, img_in, debug_output = False):
-        
+        result = {}
         result["frame_number"] = self.frame_number
         self.frame_number = self.frame_number + 1
         bounding_boxes, landmarks = self.mtcnn(img_in)
@@ -65,7 +65,6 @@ class AlgorithmControler:
                 face_mid_to_nose = utli.dist_2d(face_width_mid, landmark[30])
                 face_distance_to_mid_half = (left_dist + right_dist)/2
                 result["pitch"] = face_mid_to_nose / face_distance_to_mid_half
-                print("pitch: " + str(result["pitch"]))
                 if result["pitch"] >= self.triggers.get_trigger("pitch"):
                     result["pitch_violated"] = True
                 else:

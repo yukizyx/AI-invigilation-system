@@ -18,10 +18,9 @@ class ActionQueue:
             self.queue.append((action, value))
 
     def get_top_action(self):
-        with self.lock:
-            if not self.queue:
-                return None
-            return self.queue[0]
+        if not self.queue:
+            return None
+        return self.queue[0]
 
     def remove_action(self):
         with self.lock:
@@ -30,5 +29,4 @@ class ActionQueue:
             return self.queue.popleft()
 
     def is_empty(self):
-        with self.lock:
-            return len(self.queue) == 0
+        return len(self.queue) == 0

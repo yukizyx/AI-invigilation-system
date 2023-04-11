@@ -31,14 +31,15 @@ class ui_main_page:
             [sg.Output(size=(80, 10))]
         ]
         # Create the window
-        self.window = sg.Window('AI Invigilation Main Machine', self.layout)
+        self.window = sg.Window('AI Invigilation Main Machine', self.layout, finalize=True)
 
     def run(self):
         # Loop through events
         while True:
-            event, values = self.window.read(timeout=1000/5)
+            win, event, values = sg.read_all_windows(timeout=int(1000/30))
 
             if not self.action_queue.is_empty():
+                print("WI action is received")
                 (action, values) = self.action_queue.get_top_action()
                 if action == SET_TRIGER:
                     print('Set triger:', values)
@@ -49,7 +50,11 @@ class ui_main_page:
 
             # If the user closes the window, exit the program
             if event == sg.WINDOW_CLOSED:
-                break
+                if win == self.window:
+                    break
+                if win == self.imageUI.window:
+                    win.close()
+                    self.imageUI = None
 
             if event == 'Start BE':
                 self.window['status1'].update('Connecting...')
@@ -63,6 +68,14 @@ class ui_main_page:
                 self.be_connection.end_sending()
                 self.sending_thread.join()
                 self.be_connection.close()
+
+            if event == 'left_button':
+                self.imageUI.index = (self.imageUI.index + 1) % self.imageUI.cam_count
+                print("Changed to camera " + str(self.imageUI.index))
+
+            if event == 'right_button':
+                self.imageUI.index = (self.imageUI.index - 1) % self.imageUI.cam_count
+                print("Changed to camera " + str(self.imageUI.index))
 
             if event == '-CONNECT-':
                 if values['-CONNECT-']:
@@ -86,9 +99,12 @@ class ui_main_page:
                 print("Please start react server")
             if event == 'Cam':
                 self.imageUI = ImageGUI(self.cam_count)
-                self.imageUI.event_loop()
+                self.imageUI.start()
+                # self.imageUI.event_loop()
                 # fm = self.vc.get_Next_detection_frame()
             # Print output to the console
+            if self.imageUI:
+                self.imageUI.display_image(self.imageUI.imageManager.read_image(self.imageUI.index))
             self.window.Refresh()
 
         # Close the window

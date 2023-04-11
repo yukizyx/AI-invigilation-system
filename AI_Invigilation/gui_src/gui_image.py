@@ -16,7 +16,11 @@ class ImageGUI:
         self.imageManager = image_manager()
         self.index = 0
         self.cam_count = cam_count
-        self.window = sg.Window('Image Display', self.layout, finalize=True, modal=False)
+        self.window = None
+
+    def start(self):
+        self.window = sg.Window('Video Display', self.layout, finalize=True, modal=False)
+        return self.window
 
     def display_image(self, img):
         if img is None:
@@ -53,23 +57,17 @@ class ImageGUI:
             self.window['image_display'].update(data=img_bytes)
         
 
-    def event_loop(self):
-        while True:
-            event, values = self.window.read(timeout=int(1000/20))
-            self.display_image(self.imageManager.read_image(self.index))
-            self.window.refresh()
-            if event == sg.WIN_CLOSED:
-                break
+    # def event_loop(self):
+    #     while True:
+            
+    #         self.display_image(self.imageManager.read_image(self.index))
+    #         self.window.refresh()
+    #         if event == sg.WIN_CLOSED and win == self.window:
+    #             break
 
-            if event == 'left_button':
-                self.index = (self.index + 1) % self.cam_count
-                print("Changed to camera " + str(self.index))
 
-            if event == 'right_button':
-                self.index = (self.index - 1) % self.cam_count
-                print("Changed to camera " + str(self.index))
 
-        self.window.close()
+    #     self.window.close()
 
 if __name__ == "__main__":
     gui = ImageGUI()
