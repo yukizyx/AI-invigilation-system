@@ -21,14 +21,15 @@ class AlgorithmControler:
         self.triggers = TriggerManager.TriggerManager()
 
     def inference(self, img_in, debug_output = False):
+        
+        result = {'frame_number' : self.frame_number}
         self.frame_number = self.frame_number + 1
-        #make result dict
-        result = {}
         bounding_boxes, landmarks = self.mtcnn(img_in)
         if len(bounding_boxes) == 0:
-            reuslt["face_detected"] = False
+            result["face_detected"] = False
             return utli.pil_2_cv2(img_in), result
         else:
+            result["face_detected"] = True
             gray = utli.pil_2_cv2(img_in)
             gray = cv2.cvtColor(gray, cv2.COLOR_BGR2GRAY)
             for face in bounding_boxes:
@@ -87,7 +88,7 @@ class AlgorithmControler:
             cv2.line(img_cv2, utli.mid_point_2d(landmark[15], landmark[14], to_int=True), landmark[30], color, thickness=1)
 
             #draw pitch line
-            if result["yaw_violated"] == True:
+            if result["pitch_violated"] == True:
                 color = (0, 0, 255)
             else:
                 color = (0, 255, 0)
