@@ -91,11 +91,13 @@ class connection_manager:
                 message_size = struct.unpack("L", self.sock.recv(struct.calcsize("L")))[0]
                 encoded_message = self.sock.recv(message_size)
                 if message_type == b'STR':
-                    message = encoded_message.decode('utf-8')
+                    message = encoded_message.decode('UTF-8')
                 elif message_type == b'IMG':
                     message = cv2.imdecode(np.frombuffer(encoded_message, np.uint8), cv2.IMREAD_COLOR)
                 else:
-                    raise ValueError('Invalid message type')
+                    message = ""
+                    raise ValueError(message_type, b'STR')
+                    # raise ValueError('Invalid message type')
                 return message
 
     def close(self):
